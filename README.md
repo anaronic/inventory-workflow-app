@@ -368,7 +368,7 @@ inventory-workflow-app/
 
 ## 🤝 Contributing
 
-We welcome contributions to improve this project! Please follow these steps:
+We are preparing to welcome contributions to improve this project! Please follow these steps:
 
 ### 1. Fork the Repository
 Fork the project to your GitHub account.
