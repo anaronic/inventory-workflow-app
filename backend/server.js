@@ -5,6 +5,7 @@ const inventoryRoutes = require('./routes/inventoryRoutes');
 const app = express();
 const workflowRoutes = require('./routes/workflowRoutes');
 const summaryRoutes = require('./routes/summaryRoutes');
+const csvRoutes = require('./routes/csvRoutes');
 const cors = require('cors');
 const Inventory = require('./models/Inventory');
 const Workflow = require('./models/Workflow');
@@ -19,6 +20,7 @@ app.use(cors()); // Allow all origins
 app.use('/api/inventory', inventoryRoutes);
 app.use('/api/workflows', workflowRoutes);
 app.use('/api/summary', summaryRoutes);
+app.use('/api/csv', csvRoutes);
 
 // DELETE /api/reset - Clear all database data
 app.delete('/api/reset', async (req, res) => {
