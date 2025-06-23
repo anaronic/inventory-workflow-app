@@ -38,6 +38,13 @@ A modern, full-stack web application designed specifically for artisanal busines
 - **Loading States**: Skeleton loaders and progress indicators
 - **Error Handling**: User-friendly error messages and validation feedback
 
+### 📚 API Documentation & Developer Experience
+- **Interactive Swagger UI**: Complete OpenAPI 3.0 specification with live endpoint testing
+- **Real-time API Testing**: "Try it out" functionality for direct endpoint testing without external tools
+- **Categorized Endpoints**: Organized API sections (Inventory, Workflows, Summary, CSV Operations, Database)
+- **Professional Documentation**: Beautiful documentation homepage with feature overview and navigation
+- **Code Examples**: Ready-to-use cURL commands and request/response examples
+
 ### 🔧 Technical Features
 - **Real-time Updates**: Live data synchronization across all components
 - **Data Persistence**: MongoDB integration with Mongoose ODM
