@@ -16,7 +16,48 @@ const models = {
 // Multer setup for memory storage
 const upload = multer({ storage: multer.memoryStorage() });
 
-// --- EXPORT Route ---
+/**
+ * @swagger
+ * /api/csv/export/{collection}:
+ *   get:
+ *     summary: Export data to CSV format
+ *     tags: [CSV Operations]
+ *     description: Export inventory or workflow data to CSV format for backup or analysis
+ *     parameters:
+ *       - in: path
+ *         name: collection
+ *         required: true
+ *         schema:
+ *           type: string
+ *           enum: [inventory, workflows]
+ *         description: Collection to export (inventory or workflows)
+ *     responses:
+ *       200:
+ *         description: CSV file generated successfully
+ *         content:
+ *           text/csv:
+ *             schema:
+ *               type: string
+ *             example: "itemName,amount,transactionType,date\nCotton Fabric,1500,expense,2024-01-15\nHandmade Scarf,800,income,2024-01-20"
+ *         headers:
+ *           Content-Disposition:
+ *             description: Attachment filename
+ *             schema:
+ *               type: string
+ *               example: "attachment; filename=\"inventory_export_2024-01-15T10:30:00.000Z.csv\""
+ *       404:
+ *         description: Collection not found or no data to export
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Server error during export
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
 router.get('/export/:collection', async (req, res) => {
   const { collection } = req.params;
   const Model = models[collection];
@@ -54,7 +95,64 @@ router.get('/export/:collection', async (req, res) => {
   }
 });
 
-// --- IMPORT Route ---
+/**
+ * @swagger
+ * /api/csv/import/{collection}:
+ *   post:
+ *     summary: Import data from CSV file
+ *     tags: [CSV Operations]
+ *     description: Import inventory or workflow data from a CSV file for bulk data operations
+ *     parameters:
+ *       - in: path
+ *         name: collection
+ *         required: true
+ *         schema:
+ *           type: string
+ *           enum: [inventory, workflows]
+ *         description: Collection to import into (inventory or workflows)
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - file
+ *             properties:
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *                 description: CSV file to import
+ *     responses:
+ *       201:
+ *         description: Data imported successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "25 records successfully imported into inventory."
+ *       400:
+ *         description: Invalid file or data format
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       404:
+ *         description: Collection not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Server error during import
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
 router.post('/import/:collection', upload.single('file'), async (req, res) => {
   const { collection } = req.params;
   const Model = models[collection];
